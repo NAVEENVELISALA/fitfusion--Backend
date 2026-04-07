@@ -8,4 +8,4 @@ class Config:
     MAIL_USE_TLS = True
 
     MAIL_USERNAME = "velisalanaveen7477@gmail.com"
-    MAIL_PASSWORD = "qbph sawl jtvn dwdl"
+    MAIL_PASSWORD = "nyuelxxzvpkletpy"

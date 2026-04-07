@@ -5,6 +5,7 @@ import bcrypt
 from sqlalchemy import text
 import random
 import time
+import re
 from datetime import datetime, date
 from config import Config
 from flask_mail import Mail, Message
@@ -102,6 +103,25 @@ def signup():
     weight = data.get('weight')
     goal = data.get('goal')
 
+    # -----------------------------
+    # Gmail validation
+    # -----------------------------
+    gmail_regex = r'^[a-zA-Z0-9._%+-]+@gmail\.com$'
+
+    if not re.match(gmail_regex, email):
+        return jsonify({"error": "Please enter a valid Gmail address"}), 400
+
+    # -----------------------------
+    # Check if email already exists
+    # -----------------------------
+    existing_user = User.query.filter_by(email=email).first()
+
+    if existing_user:
+        return jsonify({"error": "Email already registered"}), 400
+
+    # -----------------------------
+    # Hash password
+    # -----------------------------
     hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode("utf-8")
 
     user = User(
